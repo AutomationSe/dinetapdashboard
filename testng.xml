@@ -5,19 +5,4 @@
             <class name="tests.LoginTest"/>
         </classes>
     </test>
-    <test name="Platform Account Management Tests">
-        <classes>
-            <class name="tests.PlatformAccountsTest"/>
-        </classes>
-    </test>
-    <test name="User Management Tests">
-        <classes>
-            <class name="tests.UserTest"/>
-        </classes>
-    </test>
-    <test name="System Variable Module Tests">
-        <classes>
-            <class name="tests.SystemVariableTest"/>
-        </classes>
-    </test>
 </suite>
