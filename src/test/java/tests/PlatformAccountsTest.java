@@ -23,7 +23,7 @@ public class PlatformAccountsTest extends BaseTest {
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[normalize-space()='Rest_777000']")
+                By.xpath("//div[normalize-space()='new TRX-1']")
         ));
     }
 
