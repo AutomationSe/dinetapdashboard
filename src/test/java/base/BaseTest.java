@@ -26,12 +26,12 @@ public class BaseTest {
         loginPage.login(email, password);
     }
 
-//    @AfterClass(alwaysRun = true)
-//    public void tearDownOnce() {
-//        if (driver != null) {
-//            driver.quit();
-//        }
-//    }
+    @AfterClass(alwaysRun = true)
+    public void tearDownOnce() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
     public WebDriver getDriver() {
         return driver;

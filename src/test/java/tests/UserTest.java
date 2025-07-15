@@ -55,5 +55,6 @@ public class UserTest extends BaseTest {
         userPage.closeModalIfOpen();
 
         System.out.println("✅ Created user: " + userData.get("Email"));
+//        tearDownOnce();
     }
 }
