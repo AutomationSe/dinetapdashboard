@@ -5,4 +5,24 @@
             <class name="tests.LoginTest"/>
         </classes>
     </test>
+    <test name="Logout Functionality Tests">
+        <classes>
+            <class name="tests.logoutTest"/>
+        </classes>
+    </test>
+    <test name="System variables Tests">
+        <classes>
+            <class name="tests.SystemVariableTest"/>
+        </classes>
+    </test>
+    <test name="User Variable Tests">
+        <classes>
+            <class name="tests.UserTest"/>
+        </classes>
+    </test>
+    <test name="Account Variable Tests">
+        <classes>
+            <class name="tests.accountTest"/>
+        </classes>
+    </test>
 </suite>
