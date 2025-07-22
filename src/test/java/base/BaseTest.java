@@ -5,12 +5,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import pages.LoginPage;
 
 import java.time.Duration;
 
+@Listeners(listerners.TestListener.class)
 public class BaseTest {
     protected WebDriver driver;
+
 
     @BeforeClass(alwaysRun = true)
     public void setUpOnce() {
@@ -26,12 +29,12 @@ public class BaseTest {
         loginPage.login(email, password);
     }
 
-    @AfterClass(alwaysRun = true)
+/*    @AfterClass(alwaysRun = true)
     public void tearDownOnce() {
         if (driver != null) {
             driver.quit();
         }
-    }
+    }*/
 
     public WebDriver getDriver() {
         return driver;

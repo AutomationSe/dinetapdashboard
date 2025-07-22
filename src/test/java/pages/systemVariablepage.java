@@ -60,7 +60,6 @@ public class systemVariablepage {
     public void clickSystemVariablelink() {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(systemVariablelink));
         actions.moveToElement(element).click().perform();
-        System.out.println("✅ Clicked on System Variables navigation link using mouse action.");
     }
 
     // Dropdown Verification

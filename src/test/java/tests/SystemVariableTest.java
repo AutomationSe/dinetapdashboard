@@ -99,6 +99,6 @@ public class SystemVariableTest extends BaseTest {
         page.clickCreateButton();
 
         softAssert.assertAll();
-        tearDownOnce();
+//        tearDownOnce();
     }
 }
