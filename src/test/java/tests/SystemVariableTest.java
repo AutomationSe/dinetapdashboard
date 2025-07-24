@@ -2,8 +2,10 @@ package tests;
 
 import base.BaseTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.systemVariablepage;
@@ -28,12 +30,17 @@ public class SystemVariableTest extends BaseTest {
         softAssert = new SoftAssert();
 
         // Verify "my new cafe" is visible using soft assertion
-        String cafeNameText = wait.until(ExpectedConditions
+/*        String cafeNameText = wait.until(ExpectedConditions
                         .visibilityOfElementLocated(By.xpath("(//div[normalize-space()='my new cafe'])[1]")))
                 .getText().trim();
 
         System.out.println("✅ Cafe name captured: " + cafeNameText);
-        softAssert.assertEquals(cafeNameText, "my new cafe", "Cafe name text mismatch");
+        softAssert.assertEquals(cafeNameText, "my new cafe", "Cafe name text mismatch");*/
+
+        WebElement heading = driver.findElement(By.xpath("(//h1[normalize-space()='Restaurants'])[1]"));
+        String actualText = heading.getText().trim();
+        String expectedText = "Restaurants";
+        Assert.assertEquals(actualText, expectedText, "❌ Header text mismatch!");
 
         softAssert.assertAll(); // Evaluate soft assertions
 

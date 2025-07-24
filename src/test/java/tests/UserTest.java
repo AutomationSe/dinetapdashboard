@@ -2,8 +2,10 @@ package tests;
 
 import base.BaseTest;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -20,11 +22,16 @@ public class UserTest extends BaseTest {
     public void doLoginOnce() {
         loginAs("senel@gmail.com", "Senel2314@");
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(
+        WebElement heading = driver.findElement(By.xpath("(//h1[normalize-space()='Restaurants'])[1]"));
+        String actualText = heading.getText().trim();
+        String expectedText = "Restaurants";
+        Assert.assertEquals(actualText, expectedText, "❌ Header text mismatch!");
+
+/*        new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(
                 ExpectedConditions.visibilityOfElementLocated(
                         By.xpath("(//div[normalize-space()='my new cafe'])[1]")
                 )
-        );
+        );*/
     }
 
     @DataProvider(name = "userData")

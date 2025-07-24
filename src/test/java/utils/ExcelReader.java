@@ -10,6 +10,7 @@ public class ExcelReader {
 
     public static List<Map<String, String>> getData(String filePath, String sheetName) {
         List<Map<String, String>> dataList = new ArrayList<>();
+        DataFormatter dataFormatter = new DataFormatter(); // ✅ Add formatter here
 
         try (FileInputStream fis = new FileInputStream(new File(filePath));
              Workbook workbook = WorkbookFactory.create(fis)) {
@@ -24,10 +25,12 @@ public class ExcelReader {
                 Map<String, String> rowData = new HashMap<>();
 
                 for (int j = 0; j < headerRow.getLastCellNum(); j++) {
-                    String key = headerRow.getCell(j).getStringCellValue();
+                    String key = headerRow.getCell(j).getStringCellValue().trim();
+
                     Cell cell = row.getCell(j);
-                    String value = (cell != null) ? cell.toString() : "";
-                    rowData.put(key.trim(), value.trim());
+                    String value = (cell != null) ? dataFormatter.formatCellValue(cell).trim() : ""; // ✅ Format as display value
+
+                    rowData.put(key, value);
                 }
 
                 dataList.add(rowData);

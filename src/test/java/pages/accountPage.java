@@ -73,8 +73,6 @@ public class accountPage {
 
     private final By Currency = By.xpath("(//label[normalize-space()='Currency'])[1]");
 
-//    private final By currencyDropdown = By.xpath("(//select[@name='posCurrency'])[1]");
-
     private final By timeZonetext = By.xpath("(//label[normalize-space()='Time Zone'])[1]");
     private final By owneremailtext = By.xpath("(//label[normalize-space()='Owner Email'])[1]");
     private final By owneremailInput = By.xpath("(//input[@id='registeredEmail'])[1]");
@@ -243,8 +241,14 @@ public class accountPage {
     }
 
     public void clickNextButton() {
-        actions.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(clickNextButton)))
-                .click().perform();
+        try {
+            Thread.sleep(5000); // ⏱️ Wait 5 seconds (you can replace with WebDriverWait later)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        WebElement nextBtn = wait.until(ExpectedConditions.elementToBeClickable(clickNextButton));
+        nextBtn.click();
     }
 
     public String getRestaurantText() {
@@ -298,36 +302,6 @@ public class accountPage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(Currency))
                 .getText().trim();
     }
-
-/*
-    private String getCurrencyOptionXPath(String currencyText) {
-        return String.format("//div[@role='option' and contains(text(),'%s')]", currencyText);
-    }
-
-    public void selectCurrency(String currency) {
-        // Step 1: Click the dropdown to open it
-        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(currencyDropdown));
-        actions.moveToElement(dropdown).click().perform();
-
-        // Step 2: Wait for dropdown to render
-        try {
-            Thread.sleep(500); // Optional pause to ensure animation/DOM load
-        } catch (InterruptedException ignored) {}
-
-        // Step 3: Locate and click the desired currency option
-        String optionXPath = getCurrencyOptionXPath(currency);
-        WebElement currencyOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(optionXPath)));
-        actions.moveToElement(currencyOption).click().perform();
-    }
-*/
-
-
-
-/*    public void selectCurrencyByValue(String value) {
-        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(currencyDropdown));
-        Select select = new Select(dropdown);
-        select.selectByValue(value);
-    }*/
 
 
     public String getTimeZoneText() {
