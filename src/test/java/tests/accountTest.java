@@ -39,7 +39,7 @@ public class accountTest extends BaseTest {
         );
     }
 
-/*    @Test(priority = 2)
+    @Test(priority = 2)
     public void ClickandCancel(){
         accountPage page = new accountPage(getDriver());
         page.clickAccountButton();
@@ -63,12 +63,12 @@ public class accountTest extends BaseTest {
                 "Are you sure you want to cancel this account creation?","❌ Cancel confirmation text mismatch"
         );
         page.clickCancelButtonTwo();
-    }*/
+    }
 
 
 
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void testAccountCreationDataDriven() {
         accountPage page = new accountPage(getDriver());
         List<Map<String, String>> testData = ExcelReader.getData("C:\\Users\\User\\Desktop\\Account_update.xlsx", "Sheet1");

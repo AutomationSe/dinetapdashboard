@@ -2,8 +2,10 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -29,10 +31,10 @@ public class restaurantPage {
     private final By NameText = By.xpath("(//label[normalize-space()='Name'])[1]");
     private final By NameInput = By.xpath("(//input[@id='name'])[1]");
     private final By Street = By.xpath("(//label[normalize-space()='Street'])[1]");
-    private final By StreetInput = By.xpath("(//input[@id='street'])[1]");
+    private final By StreetInput = By.xpath("(//input[@id='address'])[1]");
     private final By Country = By.xpath("(//label[normalize-space()='Country'])[1]");
     private final By cityText = By.xpath("(//label[normalize-space()='City'])[1]");
-    private final By cityInput = By.xpath("(//div[@class='flex w-full items-center justify-between'])[3]");
+    private final By cityInput = By.xpath("(//select[@aria-hidden='true'])[2]");
     private final By timezoneText = By.xpath("(//label[normalize-space()='Time Zone'])[1]");
     private final By timezoneInput = By.xpath("(//div[@class='flex w-full items-center justify-between'])[4]");
     private final By postalcodeText = By.xpath("(//label[normalize-space()='Postal Code'])[1]");
@@ -45,7 +47,8 @@ public class restaurantPage {
     private final By mainCusinedropdown = By.xpath("(//div[@class='flex w-full items-center justify-between'])[6]");
 
     public String getRestaurantNameText() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(restaurantName))
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        return shortWait.until(ExpectedConditions.visibilityOfElementLocated(restaurantName))
                 .getText().trim();
     }
     public String getPaymentProviderText() {
@@ -100,8 +103,16 @@ public class restaurantPage {
                 .getText().trim();
     }
 
-    public void enterCity(String city) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(cityInput)).sendKeys(city);
+    public void selectCity(String city) {
+        try {
+            Thread.sleep(4000); // Wait for 4 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        WebElement dropdownElement = wait.until(ExpectedConditions.elementToBeClickable(cityInput));
+        Select select = new Select(dropdownElement);
+        select.selectByVisibleText(city);
     }
 
     public String getTimezoneText() {
@@ -110,7 +121,21 @@ public class restaurantPage {
     }
 
     public void enterTimezone(String timezone) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(timezoneInput)).sendKeys(timezone);
+        // Click the dropdown to open it
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(timezoneInput));
+        dropdown.click();
+
+        // Small wait to allow dropdown options to render (optional but helpful for flaky dropdowns)
+        try {
+            Thread.sleep(500); // 0.5s delay if dropdown is rendered slowly
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Wait for the correct dropdown option and click it
+        By option = By.xpath("//div[contains(@class,'option') and text()='" + timezone + "']");
+        WebElement optionElement = wait.until(ExpectedConditions.elementToBeClickable(option));
+        optionElement.click();
     }
 
     public String getPostalCodeText() {
@@ -128,19 +153,31 @@ public class restaurantPage {
     }
 
     public void enterCurrency(String currency) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(currencyInput)).sendKeys(currency);
+        // Step 1: Open the dropdown
+        wait.until(ExpectedConditions.elementToBeClickable(currencyInput)).click();
+
+        // Step 2: Wait for and select the currency option
+        By option = By.xpath("//div[text()='" + currency + "']");
+        wait.until(ExpectedConditions.elementToBeClickable(option)).click();
     }
+
 
     public String getCuisineText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(cusineText))
                 .getText().trim();
     }
 
-    public void selectCuisine(String cuisine) {
+    public void selectCuisines(String cuisines) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(cuisinedropdown)).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[text()='" + cuisine + "']"))).click();
-    }
 
+        // Split the comma-separated string and click each option
+        String[] cuisineArray = cuisines.split(",");
+        for (String cuisine : cuisineArray) {
+            String trimmedCuisine = cuisine.trim();
+            By option = By.xpath("//div[text()='" + trimmedCuisine + "']");
+            wait.until(ExpectedConditions.elementToBeClickable(option)).click();
+        }
+    }
     public String getMainCuisineText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(mainCusineText))
                 .getText().trim();
