@@ -90,6 +90,12 @@ public class restaurantTest extends BaseTest {
             page.selectRestaurantCategory(data.get("Restaurant Category"));
             page.clickNextButton4();
 
+            softAssert.assertEquals(page.getPaymentInfoText(),"Payment Info" , "❌ Payment Info label mismatch");
+            softAssert.assertEquals(page.getPaymentProviderTxt(),"Provider", "❌ Payment Provider label mismatch");
+            softAssert.assertEquals(page.getPaymentPlatformAccountText(),"Platform Account", "❌ Platform Account label mismatch");
+            page.enterPaymentPlatformAccount("EatMe - POS 2 (acct_1O9kwUAaoVAZ6m8M)");
+            softAssert.assertEquals(page.getConnectAccountText(), "Connect Account", "❌ Connect Account label mismatch");
+            page.enterConnectAccount("acct_1REm1MPMERGGWtpY");
 
             softAssert.assertAll();
 

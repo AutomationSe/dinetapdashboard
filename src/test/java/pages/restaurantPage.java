@@ -81,9 +81,6 @@ public class restaurantPage {
     private final By connectAccountText = By.cssSelector("label[for='connectId']");
     private final By connectAccountInput = By.xpath("(//div[@class='flex w-full items-center justify-between'])[4]");
 
-
-
-
     public String getRestaurantNameText() {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
         return shortWait.until(ExpectedConditions.visibilityOfElementLocated(restaurantName))
@@ -422,35 +419,57 @@ public class restaurantPage {
     }
 
     public void enterPaymentPlatformAccount(String account) {
-        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(paymentplatformAccountInput));
+
+/*        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
+        WebElement dropdown = shortWait.until(ExpectedConditions.elementToBeClickable(paymentplatformAccountInput));
         dropdown.click();
-
-        // Wait for the option to appear
         By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + account + "']");
-        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
-
-        // Scroll into view and click
+        WebElement optionElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
+
+/*        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(paymentplatformAccountInput));
+        dropdown.click();
+        By optionsContainer = By.xpath("//div[contains(@class,'option') or @role='option']");
+        wait.until(ExpectedConditions.presenceOfElementLocated(optionsContainer));
+        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + account + "']");
+        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        optionElement.click();*/
     }
+
 
     public String getConnectAccountText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(connectAccountText))
                 .getText().trim();
     }
 
-    public void enterConnectAccount(String account) {
+    public void enterConnectAccount(String connectAccount) {
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(connectAccountInput));
         dropdown.click();
-
-        // Wait for the option to appear
-        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + account + "']");
+        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + connectAccount + "']");
         WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
-
-        // Scroll into view and click
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
     }
 
 
 }
+/*        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
+        WebElement dropdown = shortWait.until(ExpectedConditions.elementToBeClickable(paymentplatformAccountInput));
+        dropdown.click();
+        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + account + "']");
+        WebElement optionElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        optionElement.click();*/
