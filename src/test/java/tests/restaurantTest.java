@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.restaurantPage;
 import utils.ExcelReader;
 
@@ -19,7 +20,7 @@ import static java.sql.DriverManager.getDriver;
 
 public class restaurantTest extends BaseTest {
     restaurantPage page;
-
+    SoftAssert softAssert = new SoftAssert();
     @BeforeClass
     public void loginAndWait() {
         loginAs("seneluser@gmail.com", "Senel2314@");
@@ -73,12 +74,24 @@ public class restaurantTest extends BaseTest {
             Assert.assertEquals(page.getContactInfoText(),"Contact Info", "❌ Contact Info label mismatch");
             Assert.assertEquals(page.getEmailText(),"Email", "❌ Email label mismatch");
             page.enterEmail(data.get("Email"));
-            Assert.assertEquals(page.getPhoneNumberText(),"Phone", "❌ Phone label mismatch");
+            Assert.assertEquals(page.getPhoneNumberText(),"Phone Number", "❌ Phone label mismatch");
             page.enterPhoneNumber(data.get("Phone Number"));
             Assert.assertEquals(page.getPointContactNameText(),"Point of Contact Name", "❌ Point of Contact Name label mismatch");
             page.enterPointContactName(data.get("Point of Contact Name"));
             Assert.assertEquals(page.getPointphoneText(),"Point of Contact Phone Number", "❌ Point of Contact Phone Number label mismatch");
             page.enterPointContactPhone(data.get("Point of Contact Phone Number"));
+
+            page.clickNextButton3();
+
+            softAssert.assertEquals(page.getSalesinfoText(), "Sales Info", "❌ Sales Info label mismatch");
+            softAssert.assertEquals(page.getSalesmanagerText(), "Sales Manager", "❌ Sales Manager label mismatch");
+            page.selectSalesManager(data.get("Sales Manager"));
+            softAssert.assertEquals(page.getRestaurantCategoryText(), "Restaurant Category", "❌ Restaurant Category label mismatch");
+            page.selectRestaurantCategory(data.get("Restaurant Category"));
+            page.clickNextButton4();
+
+
+            softAssert.assertAll();
 
         }
 
