@@ -242,7 +242,7 @@ public class accountPage {
 
     public void clickNextButton() {
         try {
-            Thread.sleep(5000); // ⏱️ Wait 5 seconds (you can replace with WebDriverWait later)
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

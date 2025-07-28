@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,16 +24,13 @@ public class restaurantTest extends BaseTest {
     public void loginAndWait() {
         loginAs("seneluser@gmail.com", "Senel2314@");
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        // Now driver is ready, so initialize page here
         page = new restaurantPage(getDriver());
 
     }
 
     @Test(priority = 1)
     public void testRestaurantPageHeader() {
-
         Assert.assertEquals(page.getRestaurantNameText(), "Restaurants", "❌ Header text mismatch!");
-
         Assert.assertEquals(page.getPaymentProviderText(), "Payment Provider", "❌ Payment Provider label mismatch");
         Assert.assertEquals(page.getStatusText(), "Status", "❌ Status label mismatch");
     }
@@ -61,6 +59,27 @@ public class restaurantTest extends BaseTest {
             page.selectCuisines(data.get("Cuisines"));
             Assert.assertEquals(page.getMainCuisineText(), "Main Cuisine", "❌ Main Cuisine label mismatch");
             page.selectMainCuisine(data.get("Main Cuisine"));
+
+            page.clickNextButton();
+
+            page.selectLocationFromGoogle(data.get("newlocation"));
+//            page.selectLocationFromGoogle("24 Purvis St, Singapore 188601");
+            Assert.assertEquals(page.getLatitudeText(), "Latitude", "❌ Main Cuisine label mismatch");
+            Assert.assertEquals(page.getLongitude(), "Longitude", "❌ Main Cuisine label mismatch");
+            Assert.assertEquals(page.getplaceidtext(), "Place ID", "❌ Main Cuisine label mismatch");
+
+            page.clickNextButton2();
+
+            Assert.assertEquals(page.getContactInfoText(),"Contact Info", "❌ Contact Info label mismatch");
+            Assert.assertEquals(page.getEmailText(),"Email", "❌ Email label mismatch");
+            page.enterEmail(data.get("Email"));
+            Assert.assertEquals(page.getPhoneNumberText(),"Phone", "❌ Phone label mismatch");
+            page.enterPhoneNumber(data.get("Phone Number"));
+            Assert.assertEquals(page.getPointContactNameText(),"Point of Contact Name", "❌ Point of Contact Name label mismatch");
+            page.enterPointContactName(data.get("Point of Contact Name"));
+            Assert.assertEquals(page.getPointphoneText(),"Point of Contact Phone Number", "❌ Point of Contact Phone Number label mismatch");
+            page.enterPointContactPhone(data.get("Point of Contact Phone Number"));
+
         }
 
     }
