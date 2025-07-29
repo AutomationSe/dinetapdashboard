@@ -21,6 +21,7 @@ import static java.sql.DriverManager.getDriver;
 public class restaurantTest extends BaseTest {
     restaurantPage page;
     SoftAssert softAssert = new SoftAssert();
+
     @BeforeClass
     public void loginAndWait() {
         loginAs("seneluser@gmail.com", "Senel2314@");
@@ -33,6 +34,7 @@ public class restaurantTest extends BaseTest {
     public void testRestaurantPageHeader() {
         Assert.assertEquals(page.getRestaurantNameText(), "Restaurants", "❌ Header text mismatch!");
         Assert.assertEquals(page.getPaymentProviderText(), "Payment Provider", "❌ Payment Provider label mismatch");
+        /*page.selectPaymentProvider("Stripe");*/
         Assert.assertEquals(page.getStatusText(), "Status", "❌ Status label mismatch");
     }
 
@@ -48,6 +50,8 @@ public class restaurantTest extends BaseTest {
             page.enterName(data.get("Name"));
             Assert.assertEquals(page.getStreetText(), "Street", "❌ Street label mismatch");
             page.enterStreet(data.get("Street"));
+            Assert.assertEquals(page.getCountryText(), "Country", "❌ Country label mismatch");
+            page.selectCountry("Singapore");
             Assert.assertEquals(page.getCityText(), "City", "❌ City label mismatch");
             page.selectCity(data.get("City"));
             Assert.assertEquals(page.getTimezoneText(), "Time Zone", "❌ TimeZone label mismatch");
@@ -64,7 +68,6 @@ public class restaurantTest extends BaseTest {
             page.clickNextButton();
 
             page.selectLocationFromGoogle(data.get("newlocation"));
-//            page.selectLocationFromGoogle("24 Purvis St, Singapore 188601");
             Assert.assertEquals(page.getLatitudeText(), "Latitude", "❌ Main Cuisine label mismatch");
             Assert.assertEquals(page.getLongitude(), "Longitude", "❌ Main Cuisine label mismatch");
             Assert.assertEquals(page.getplaceidtext(), "Place ID", "❌ Main Cuisine label mismatch");
@@ -93,42 +96,51 @@ public class restaurantTest extends BaseTest {
             softAssert.assertEquals(page.getPaymentInfoText(),"Payment Info" , "❌ Payment Info label mismatch");
             softAssert.assertEquals(page.getPaymentProviderTxt(),"Provider", "❌ Payment Provider label mismatch");
             softAssert.assertEquals(page.getPaymentPlatformAccountText(),"Platform Account", "❌ Platform Account label mismatch");
-            page.enterPaymentPlatformAccount("EatMe - POS 2 (acct_1O9kwUAaoVAZ6m8M)");
+            page.enterPaymentPlatformAccount(data.get("Platform Account"));
             softAssert.assertEquals(page.getConnectAccountText(), "Connect Account", "❌ Connect Account label mismatch");
-            page.enterConnectAccount("acct_1REm1MPMERGGWtpY");
+            page.enterConnectAccount(data.get("Connect Account"));
+            page.clickNextButton5();
+
+            softAssert.assertEquals(page.getCompanyInfoText(),"Company Info", "Name label mismatch");
+            Assert.assertEquals(page.getcompanyNameText(),"Name", "❌ Company Name label mismatch");
+            page.enterCompanyName(data.get("CompanyName"));
+            softAssert.assertEquals(page.getCompanyStreetText(),"Street", "❌ Street label mismatch");
+            page.enterCompanyStreet(data.get("CompanyStreet"));
+           softAssert.assertEquals(page.getCompanyCountryText(),"Country", "❌ Country label mismatch");
+            page.selectCompanyCountry("Singapore");
+            softAssert.assertEquals(page.getCompanyCityText(),"City", "❌ City label mismatch");
+            page.selectCompanyCity(data.get("CompanyCity"));
+            softAssert.assertEquals(page.getCompanyPostalCodeText(),"Postal Code", "❌ Postal Code label mismatch");
+            page.enterCompanyPostalCode(data.get("CompanyPostalCode"));
+            softAssert.assertEquals(page.getRegisteredNumberText(),"Registration Number (UEN)", "❌ Registered Number label mismatch");
+            page.enterRegisteredNumber(data.get("CompanyUEN"));
+            softAssert.assertEquals(page.getGstNumberText(),"GST Number", "❌ GST Number label mismatch");
+            page.enterGstNumber(data.get("CompanyGST"));
+            page.clickNextButton6();
+
+//            page.enablePOSToggle();
+            page.enableToggleIfRequired("posSwitch", data.get("POS"));
+            page.enableToggleIfRequired("dinetapApp", data.get("MobileApp"));
+            page.enableToggleIfRequired("payments", data.get("Payments"));
+
+
+             /*softAssert.assertEquals(page.getCompanyStreetText(),"Street", "Street Label mismatch");
+            page.enterCompanyStreet(data.get("CompanyStreet"));
+            softAssert.assertEquals(page.getCompanyCountryText(),"Country", "Country Label mismatch");
+            page.selectCompanyCountry("Singapore");
+            softAssert.assertEquals(page.getCompanyCityText(),"City", "City label mismatch");
+            page.selectCompanyCity(data.get("CompanyCity"));
+            softAssert.assertEquals(page.getCompanyPostalCodeText(),"Postal Code", "❌ Postal Code label mismatch");
+            page.enterCompanyPostalCode(data.get("ComPostalCode"));
+            softAssert.assertEquals(page.getRegisteredNumberText(),"Registration Number (UEN)", "❌ Registered Number label mismatch");
+            page.enterRegisteredNumber(data.get("ComRegNumber"));
+            softAssert.assertEquals(page.getGstNumberText(),"GST Number", "❌ GST Number label mismatch");
+            page.enterGstNumber(data.get("ComGSTNum"));
+            page.clickNextButton6();*/
 
             softAssert.assertAll();
 
         }
 
     }
-
-/*    @Test(priority = 3)
-    public void createnewRestaurant() {
-        List<Map<String, String>> testData = ExcelReader.getData("C:\\Users\\User\\Desktop\\Eatme Files\\dinetapadminpanel\\src\\test\\resources\\Restaurant.xlsx", "Sheet1");
-        for (Map<String, String> data : testData) {
-            page.clickNewRestaurant();
-            // Validate page heading
-            Assert.assertEquals(page.getNewRestaurantHeadingText(), "New Restaurant", "❌ Heading mismatch");
-            Assert.assertEquals(page.getRestaurantBasicInfoText(), "Restaurant Basic Info", "❌ Section heading mismatch");
-            // Fill form
-            Assert.assertEquals(page.getNameText(), "Name", "❌ Name label mismatch");
-            page.enterName(data.get("Name"));
-            Assert.assertEquals(page.getStreetText(), "Street", "❌ Street label mismatch");
-            page.enterStreet(data.get("Street"));
-            Assert.assertEquals(page.getCityText(), "City", "❌ City label mismatch");
-            page.enterCity(data.get("City"));
-            Assert.assertEquals(page.getTimezoneText(), "Time Zone", "❌ TimeZone label mismatch");
-            page.enterTimezone(data.get("Time Zone"));
-            Assert.assertEquals(page.getPostalCodeText(), "Postal Code", "❌ Postal Code label mismatch");
-            page.enterPostalCode(data.get("Postal Code"));
-            Assert.assertEquals(page.getCurrencyText(), "Currency", "❌ Currency label mismatch");
-            page.enterCurrency(data.get("Currency"));
-            Assert.assertEquals(page.getCuisineText(), "Cuisines", "❌ Cuisine label mismatch");
-            page.selectCuisines(data.get("Cuisines"));
-            Assert.assertEquals(page.getMainCuisineText(), "Main Cuisine", "❌ Main Cuisine label mismatch");
-            page.selectMainCuisine(data.get("Main Cuisine"));
-        }
-    }*/
-
 }
