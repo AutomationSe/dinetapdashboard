@@ -25,7 +25,7 @@ public class systemVariablepage {
     // Navigation Link
     private final By systemVariablelink = By.xpath("//span[normalize-space()='System Variables']");
 
-    // Dropdown & Options
+
     private final By productTypeDropdown = By.xpath("(//div[@aria-label='Select Product Types'])[1]");
     private final By optionPOS = By.xpath("(//div[@class='flex items-center gap-2'][normalize-space()='POS'])[1]");
     private final By optionDinetapApp = By.xpath("(//div[@class='flex items-center gap-2'][normalize-space()='Dinetap App'])[1]");

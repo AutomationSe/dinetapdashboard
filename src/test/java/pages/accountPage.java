@@ -1,12 +1,14 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -384,6 +386,7 @@ public class accountPage {
                 .click().perform();
     }
 
+
     public String getSettingAccountText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(settingAccount))
                 .getText().trim();
@@ -434,7 +437,7 @@ public class accountPage {
                 .getText().trim();
 
         try {
-            Thread.sleep(11000); // ⏳ Wait for 5 seconds AFTER capturing the text
+            Thread.sleep(11000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -454,8 +457,21 @@ public class accountPage {
 
 
     public void clickOkayButton() {
-        actions.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(okaybutton)))
-                .click().perform();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        try {
+            WebElement okBtn = wait.until(ExpectedConditions.elementToBeClickable(okaybutton));
+            try {
+                // First try regular click
+                okBtn.click();
+            } catch (Exception e) {
+                // Fallback to JS click if normal click fails
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", okBtn);
+            }
+            System.out.println("✅ Clicked OK button");
+        } catch (Exception ex) {
+            System.out.println("❌ Failed to click OK button: " + ex.getMessage());
+            Assert.fail("OK button click failed.");
+        }
     }
 
 

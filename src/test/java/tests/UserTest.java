@@ -44,7 +44,6 @@ public class UserTest extends BaseTest {
         }
         return result;
     }
-
     @Test(dataProvider = "userData")
     public void createUserTest(Map<String, String> userData) {
         UserPage userPage = new UserPage(getDriver());
@@ -60,8 +59,6 @@ public class UserTest extends BaseTest {
         userPage.fillPassword(userData.get("Password"));
         userPage.clickCreate();
         userPage.closeModalIfOpen();
-
         System.out.println("✅ Created user: " + userData.get("Email"));
-//        tearDownOnce();
     }
 }

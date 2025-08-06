@@ -6,8 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
+import org.testng.asserts.SoftAssert;
 import pages.LoginPage;
-
+import pages.restaurantPage;
 import java.time.Duration;
 
 @Listeners(listerners.TestListener.class)
@@ -35,6 +36,14 @@ public class BaseTest {
             driver.quit();
         }
     }*/
+
+    protected restaurantPage page;
+
+    public void validateRestaurantHeaders(SoftAssert softAssert) {
+        softAssert.assertEquals(page.getRestaurantNameText(), "Restaurants", "❌ Header text mismatch!");
+        softAssert.assertEquals(page.getPaymentProviderText(), "Payment Provider", "❌ Payment Provider label mismatch");
+        softAssert.assertEquals(page.getStatusText(), "Status", "❌ Status label mismatch");
+    }
 
     public WebDriver getDriver() {
         return driver;

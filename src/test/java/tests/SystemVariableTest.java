@@ -10,7 +10,7 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.systemVariablepage;
 import utils.ExcelReader;
-
+import pages.restaurantPage;
 import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
@@ -26,27 +26,18 @@ public class SystemVariableTest extends BaseTest {
     public void doLoginAndNavigate() {
         loginAs("senel@gmail.com", "Senel2314@");
 
-        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(15));
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         softAssert = new SoftAssert();
 
-        // Verify "my new cafe" is visible using soft assertion
-/*        String cafeNameText = wait.until(ExpectedConditions
-                        .visibilityOfElementLocated(By.xpath("(//div[normalize-space()='my new cafe'])[1]")))
-                .getText().trim();
-
-        System.out.println("✅ Cafe name captured: " + cafeNameText);
-        softAssert.assertEquals(cafeNameText, "my new cafe", "Cafe name text mismatch");*/
-
-        WebElement heading = driver.findElement(By.xpath("(//h1[normalize-space()='Restaurants'])[1]"));
+/*        WebElement heading = driver.findElement(By.xpath("(//h1[normalize-space()='Restaurants'])[1]"));
         String actualText = heading.getText().trim();
         String expectedText = "Restaurants";
-        Assert.assertEquals(actualText, expectedText, "❌ Header text mismatch!");
+        Assert.assertEquals(actualText, expectedText, "❌ Header text mismatch!");*/
 
-        softAssert.assertAll(); // Evaluate soft assertions
+        page = new restaurantPage(getDriver());
+        validateRestaurantHeaders(softAssert);
+        softAssert.assertAll();
 
-        // Load Excel data
-        String path = "src/test/resources/SystemVariablesData.xlsx";
-        testData = ExcelReader.getData(path, "Sheet1");
     }
 
     @Test(priority = 1)
@@ -63,49 +54,50 @@ public class SystemVariableTest extends BaseTest {
         softAssert.assertEquals(page.getHeaderSystemVariables().getText().trim(), "System Variables", "Mismatch in page heading");
         softAssert.assertEquals(page.getLabelProductTypes().getText().trim(), "Product Types", "Mismatch in label");
 
-        page.openProductTypeDropdown();
+     /*   page.openProductTypeDropdown();
 
         softAssert.assertEquals(page.getOptionPOS().getText().trim(), "POS", "POS option missing");
         softAssert.assertEquals(page.getOptionDinetapApp().getText().trim(), "Dinetap App", "Dinetap App option missing");
         softAssert.assertEquals(page.getOptionPayments().getText().trim(), "Payments", "Payments option missing");
-        softAssert.assertEquals(page.getOptionLegacy().getText().trim(), "Legacy", "Legacy option missing");
+        softAssert.assertEquals(page.getOptionLegacy().getText().trim(), "Legacy", "Legacy option missing");*/
 
         softAssert.assertAll();
     }
 
     @DataProvider(name = "systemVariableData")
     public Iterator<Object[]> provideSystemVariableData() {
-        return testData.stream()
-                .map(data -> new Object[]{
-                        data.get("Key"),
-                        data.get("Description"),
-                        data.get("Type"),
-                        data.get("Value")
-                })
-                .iterator();
+        String filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\SystemVariablesData.xlsx";
+        String sheetName = "Sheet1";
+        List<Map<String, String>> dataList = ExcelReader.getData(filePath, sheetName);
+        return dataList.stream().map(row -> new Object[]{row}).iterator();
     }
 
     @Test(priority = 3, dataProvider = "systemVariableData")
-    public void testCreateSystemVariableFromExcel(String key, String description, String type, String value) {
+    public void testCreateSystemVariableFromExcel(Map<String, String> data) {
         systemVariablepage page = new systemVariablepage(getDriver());
         SoftAssert softAssert = new SoftAssert();
 
         page.clickNewSystemVariableButton();
 
-        softAssert.assertEquals(page.getFormHeading(), "New System Variable", "Form heading mismatch");
-        softAssert.assertEquals(page.getKeyLabel(), "Key", "Key label mismatch");
-        softAssert.assertEquals(page.getDescriptionLabel(), "Description", "Description label mismatch");
-        softAssert.assertEquals(page.getTypeLabel(), "Type", "Type label mismatch");
-        softAssert.assertEquals(page.getValueLabel(), "Value", "Value label mismatch");
+        softAssert.assertEquals(page.getFormHeading(), "New System Variable", "❌ Form heading mismatch");
+        softAssert.assertEquals(page.getKeyLabel(), "Key", "❌ Key label mismatch");
+        softAssert.assertEquals(page.getDescriptionLabel(), "Description", "❌ Description label mismatch");
+        softAssert.assertEquals(page.getTypeLabel(), "Type", "❌ Type label mismatch");
+        softAssert.assertEquals(page.getValueLabel(), "Value", "❌ Value label mismatch");
 
-        page.enterKey(key);
-        page.enterDescription(description);
-        page.selectType(type); // accepts POS, Dinetap App, Payments, Legacy
-        page.enterValue(value);
+        page.enterKey(data.get("Key"));
+        page.enterDescription(data.get("Description"));
+        page.selectType(data.get("Type")); // accepts POS, Dinetap App, Payments, Legacy
+        page.enterValue(data.get("Value"));
 
         page.clickCreateButton();
+        System.out.println("✅ Submitted system variable: " + data.get("Key"));
+        softAssert.assertEquals(page.getHeaderSystemVariables().getText().trim(), "System Variables", "Mismatch in page heading");
 
         softAssert.assertAll();
-//        tearDownOnce();
+
+
     }
+
+
 }

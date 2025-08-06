@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -36,14 +37,15 @@ public class restaurantPage {
     private final By Country = By.xpath("(//label[normalize-space()='Country'])[1]");
     private final By origcountryInput = By.xpath("(//div[@class='flex w-full items-center justify-between'])[2]");
     private final By cityText = By.xpath("(//label[normalize-space()='City'])[1]");
-    private final By cityInput = By.xpath("(//select[@aria-hidden='true'])[2]");
+    private final By cityInput = By.xpath("(//div[@class='flex w-full items-center justify-between'])[3]");
     private final By timezoneText = By.xpath("(//label[normalize-space()='Time Zone'])[1]");
     private final By timezonedropdown = By.xpath("(//div[@class='flex w-full items-center justify-between'])[4]");
-    private final By timezoneselect = By.xpath("(//select[@aria-hidden='true'])[3]");
+    private final By timezoneselect = By.xpath("(//div[@class='flex w-full items-center justify-between'])[4]");
     private final By postalcodeText = By.xpath("(//label[normalize-space()='Postal Code'])[1]");
     private final By postalcodeInput = By.xpath("(//input[@id='posPostalCode'])[1]");
     private final By currencyText = By.xpath("(//label[normalize-space()='Currency'])[1]");
-    private final By currencyInput = By.xpath("(//select[@aria-hidden='true'])[4]");
+//    private final By currencyInput = By.xpath("(//select[@aria-hidden='true'])[4]");
+    private final By currencyInput = By.xpath("(//div[@class='flex w-full items-center justify-between'])[5]");
     private final By cusineText = By.xpath("(//label[normalize-space()='Cuisines'])[1]");
     private final By cuisinedropdown = By.xpath("(//div[@class='flex-1 overflow-hidden'])[1]");
     private final By mainCusineText = By.xpath("(//label[normalize-space()='Main Cuisine'])[1]");
@@ -53,11 +55,9 @@ public class restaurantPage {
     private final By locationinfoText = By.xpath("(//div[@class='ml-4 text-sm font-medium text-primary'])[1]");
     private final By insertLocation = By.xpath("(//input[@placeholder='E.g: Alexandra Road, Singapore'])[1]");
     private final By firstSuggestion = By.cssSelector(".pac-item");
-
     private final By latitudeText = By.xpath("(//label[normalize-space()='Latitude'])[1]");
     private final By longitudeText = By.xpath("(//label[normalize-space()='Longitude'])[1]");
     private final By Place_IDText = By.xpath("(//label[normalize-space()='Place ID'])[1]");
-
     private final By clickNextButton2 = By.xpath("(//button[normalize-space()='Next'])[1]");
     private final By contactinfotext = By.xpath("(//div[@class='ml-4 text-sm font-medium text-primary'])[1]");
     private final By emailText = By.xpath("(//label[normalize-space()='Email'])[1]");
@@ -98,12 +98,18 @@ public class restaurantPage {
     private final By gstNumberText = By.xpath("//label[normalize-space()='GST Number']");
     private final By gstNumberInput = By.xpath("//input[@id='customerGSTNumber']");
     private final By clicknextbutton6 = By.xpath("//button[normalize-space()='Next']");
+    private final By clicknextbutton7 = By.xpath("(//button[normalize-space()='Next'])[1]");
+    private final By logoverifyText = By.xpath("//div[@class='flex flex-col']//p[@id='']");
+    private final By aggrementText = By.xpath("//a[normalize-space()='Agreement']");
+    private final By AgreementHeading = By.xpath("//div[@class='flex flex-col justify-en gap-2']//div//p[@id='']");
+    private final By clicksubmitCreateButton = By.xpath("(//button[normalize-space()='Submit'])[1]");
+
 /*    private final By togglePOS = By.xpath("//button[contains(@data-testid,'posSwitch')]");
     private final By toggleMobileApp = By.xpath("//button[contains(@data-testid,'dinetapApp')]");
     private final By togglePayments = By.xpath("//button[contains(@data-testid,'payments')]");*/
 
     public String getRestaurantNameText() {
-        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(10));
         return shortWait.until(ExpectedConditions.visibilityOfElementLocated(restaurantName))
                 .getText().trim();
     }
@@ -112,7 +118,6 @@ public class restaurantPage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(Payment_Provider))
                 .getText().trim();
     }
-
     public void selectPaymentProvider(String provider) {
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(payment_providerInput));
         dropdown.click();
@@ -182,15 +187,13 @@ public class restaurantPage {
     }
 
     public void selectCity(String city) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(cityInput));
+        dropdown.click();
+        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + city + "']");
+        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        optionElement.click();
 
-        WebElement dropdownElement = wait.until(ExpectedConditions.elementToBeClickable(cityInput));
-        Select select = new Select(dropdownElement);
-        select.selectByVisibleText(city);
     }
 
     public String getTimezoneText() {
@@ -199,15 +202,13 @@ public class restaurantPage {
     }
 
     public void enterTimezone(String timezone) {
-        try {
-            Thread.sleep(2000); // Wait for 4 seconds
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(timezonedropdown));
+        dropdown.click();
+        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + timezone + "']");
+        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        optionElement.click();
 
-        WebElement dropdownElement = wait.until(ExpectedConditions.elementToBeClickable(timezoneselect));
-        Select select = new Select(dropdownElement);
-        select.selectByVisibleText(timezone);
     }
 
     public String getPostalCodeText() {
@@ -224,17 +225,23 @@ public class restaurantPage {
                 .getText().trim();
     }
 
-    public void enterCurrency(String currency) {
-
-/*        try {
+/*    public void enterCurrency(String currency) {
+        try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
         WebElement dropdownElement = wait.until(ExpectedConditions.elementToBeClickable(currencyInput));
         Select select = new Select(dropdownElement);
         select.selectByVisibleText(currency);
-
+    }*/
+    public void enterCurrency(String currency) {
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(currencyInput));
+        dropdown.click();
+        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + currency + "']");
+        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        optionElement.click();
     }
 
 
@@ -639,5 +646,38 @@ public class restaurantPage {
         }
     }
 
+    public void clickNextButton7() {
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        WebElement element = shortWait.until(ExpectedConditions.elementToBeClickable(clicknextbutton7));
+        element.click();
+    }
+
+    public String getLogoVerifyText() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(logoverifyText))
+                .getText().trim();
+    }
+
+    public String getAgreementText() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(aggrementText))
+                .getText().trim();
+    }
+
+    public String getAgreementHeadingText() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(AgreementHeading))
+                .getText().trim();
+    }
+
+    public void clickSubmitCreateButton() {
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
+        WebElement element = shortWait.until(ExpectedConditions.elementToBeClickable(clicksubmitCreateButton));
+        element.click();
+    }
+
+
+    public void validateRestaurantPageHeaders(SoftAssert softAssert) {
+        softAssert.assertEquals(getRestaurantNameText(), "Restaurants", "❌ Header text mismatch!");
+        softAssert.assertEquals(getPaymentProviderText(), "Payment Provider", "❌ Payment Provider label mismatch");
+        softAssert.assertEquals(getStatusText(), "Status", "❌ Status label mismatch");
+    }
 
 }
