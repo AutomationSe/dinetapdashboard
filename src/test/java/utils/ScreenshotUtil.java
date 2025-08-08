@@ -12,15 +12,17 @@ public class ScreenshotUtil {
     public static String takeScreenshot(WebDriver driver, String methodName) {
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         String screenshotDir = "test-output/screenshots/";
-        String screenshotPath = screenshotDir + methodName + "_" + System.currentTimeMillis() + ".png";
-        File dest = new File(screenshotPath);
+        String fileName = methodName + "_" + System.currentTimeMillis() + ".png";
+        String fullPath = screenshotDir + fileName;
+        File dest = new File(fullPath);
         dest.getParentFile().mkdirs(); // Create dir if not exist
         try {
             FileUtils.copyFile(src, dest);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return screenshotPath;
-    }
 
+        // ✅ Return relative path for ExtentReport.html
+        return "screenshots/" + fileName;
+    }
 }

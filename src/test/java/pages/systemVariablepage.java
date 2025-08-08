@@ -21,21 +21,16 @@ public class systemVariablepage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         this.actions = new Actions(driver);
     }
-
     // Navigation Link
     private final By systemVariablelink = By.xpath("//span[normalize-space()='System Variables']");
-
-
     private final By productTypeDropdown = By.xpath("(//div[@aria-label='Select Product Types'])[1]");
     private final By optionPOS = By.xpath("(//div[@class='flex items-center gap-2'][normalize-space()='POS'])[1]");
     private final By optionDinetapApp = By.xpath("(//div[@class='flex items-center gap-2'][normalize-space()='Dinetap App'])[1]");
     private final By optionPayments = By.xpath("(//div[@class='flex items-center gap-2'][normalize-space()='Payments'])[1]");
     private final By optionLegacy = By.xpath("(//div[@class='flex items-center gap-2'][normalize-space()='Legacy'])[1]");
-
     // Page Headers & Labels
     private final By headerSystemVariables = By.xpath("(//h1[normalize-space()='System Variables'])[1]");
     private final By labelProductTypes = By.xpath("(//label[normalize-space()='Product Types'])[1]");
-
     // Create Form Elements
     private final By btnNewSystemVariable = By.xpath("(//span[@class='pl-2.5'])[1]");
     private final By headerNewSystemVariable = By.xpath("(//h2[normalize-space()='New System Variable'])[1]");
@@ -46,12 +41,8 @@ public class systemVariablepage {
     private final By labelType = By.xpath("(//label[normalize-space()='Type'])[1]");
     private final By dropdownType = By.xpath("(//div[@class='flex w-full items-center justify-between'])[3]");
     private final By dropdownOptionPOS = By.xpath("(//div[@role='option'])[1]");
-
     private final By dropdownOptionDinetapApp = By.xpath("(//div[@role='option'])[2]");
-
     private final By dropdownOptionPayments = By.xpath("(//div[@role='option'])[3]");
-
-
     private final By labelValue = By.xpath("(//label[normalize-space()='Value'])[1]");
     private final By inputValue = By.xpath("//label[normalize-space()='Value']/following::input[1]");
     private final By btnCreate = By.xpath("(//button[normalize-space()='Create'])[1]");
@@ -64,6 +55,11 @@ public class systemVariablepage {
 
     // Dropdown Verification
     public WebElement getHeaderSystemVariables() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return wait.until(ExpectedConditions.visibilityOfElementLocated(headerSystemVariables));
     }
 
@@ -152,11 +148,9 @@ public class systemVariablepage {
         System.out.println("✅ Selected product type: " + type);
     }
 
-
     public String getValueLabel() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(labelValue)).getText().trim();
     }
-
 
     public void enterValue(String value) {
         WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(inputValue));
