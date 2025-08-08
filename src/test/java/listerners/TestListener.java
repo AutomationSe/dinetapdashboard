@@ -9,6 +9,8 @@ import org.testng.Reporter;
 import utils.ScreenshotUtil;
 import utils.extentManager;
 
+import java.io.File;
+
 public class TestListener implements ITestListener {
 
     @Override
@@ -29,9 +31,11 @@ public class TestListener implements ITestListener {
         BaseTest base = (BaseTest) result.getInstance();
         String screenshotPath = ScreenshotUtil.takeScreenshot(base.getDriver(), methodName);
 
-        System.out.println("❌ Test Failed and details are and testcase details are: " + result.getMethod().getMethodName());
+        System.out.println("❌ Test Failed and testcase details are: " + result.getMethod().getMethodName());
         extentManager.getTest().log(Status.FAIL, "Test Failed: " + result.getThrowable());
-        extentManager.getTest().addScreenCaptureFromPath(screenshotPath);
+
+        // ✅ This is the key change:
+        extentManager.getTest().addScreenCaptureFromPath("screenshots/" + new File(screenshotPath).getName());
 
         // Log into TestNG default report
         Reporter.log("❌ Test Failed: " + result.getThrowable(), true);

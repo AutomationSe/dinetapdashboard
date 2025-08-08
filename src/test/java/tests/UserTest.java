@@ -9,29 +9,29 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.UserPage;
+import pages.restaurantPage;
 import utils.ExcelReader;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.SocketHandler;
 
 public class UserTest extends BaseTest {
-
+    SoftAssert softAssert = new SoftAssert();
     @BeforeClass
     public void doLoginOnce() {
         loginAs("senel@gmail.com", "Senel2314@");
 
-        WebElement heading = driver.findElement(By.xpath("(//h1[normalize-space()='Restaurants'])[1]"));
+/*        WebElement heading = driver.findElement(By.xpath("(//h1[normalize-space()='Restaurants'])[1]"));
         String actualText = heading.getText().trim();
         String expectedText = "Restaurants";
-        Assert.assertEquals(actualText, expectedText, "❌ Header text mismatch!");
-
-/*        new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("(//div[normalize-space()='my new cafe'])[1]")
-                )
-        );*/
+        Assert.assertEquals(actualText, expectedText, "❌ Header text mismatch!");*/
+        page = new restaurantPage(getDriver());
+        validateRestaurantHeaders(softAssert);
+        softAssert.assertAll();
     }
 
     @DataProvider(name = "userData")

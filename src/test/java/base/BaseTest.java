@@ -5,16 +5,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import org.testng.asserts.SoftAssert;
 import pages.LoginPage;
 import pages.restaurantPage;
+
+import java.io.File;
 import java.time.Duration;
 
 @Listeners(listerners.TestListener.class)
 public class BaseTest {
     protected WebDriver driver;
 
+    @BeforeSuite
+    public void cleanScreenshotsDir() {
+        File screenshotFolder = new File("test-output/screenshots");
+        if (screenshotFolder.exists()) {
+            for (File file : screenshotFolder.listFiles()) {
+                file.delete();
+            }
+        }
+    }
 
     @BeforeClass(alwaysRun = true)
     public void setUpOnce() {
