@@ -13,35 +13,28 @@ public class UserPage {
     private WebDriver driver;
     private WebDriverWait wait;
     private Actions actions;
-
     public UserPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.actions = new Actions(driver);
     }
-
     // Locators
     private final By usersMenuLink = By.xpath("/html/body/div[1]/div[2]/div[1]/div[2]/div/div[2]/div[1]/div/div/div/ul/li[3]/a");
     private final By newUserButton = By.xpath("/html/body/div[1]/div[2]/div[2]/main/div/div[2]/div/div[1]/div[1]/div[2]/button");
-
     private final By nameInput = By.xpath("//label[contains(text(),'Name')]/following::input[1]");
     private final By emailInput = By.xpath("//label[contains(text(),'Email')]/following::input[1]");
     private final By phoneInput = By.xpath("//label[contains(text(),'Phone Number')]/following::input[1]");
     private final By passwordInput = By.xpath("//input[@placeholder='E.g: ••••••••••']");
     private final By createButton = By.xpath("//button[normalize-space()='Create']");
-
     private final By countryDropdown = By.xpath("(//div[contains(@aria-label,'Select')])[5]");
     private final By singaporeOption = By.xpath("//div[@role='option' and normalize-space()='Singapore']");
     private final By australiaOption = By.xpath("//div[@role='option' and normalize-space()='Australia']");
-
     private final By roleDropdown = By.xpath("(//div[contains(@aria-label,'Select')])[4]");
     private String roleOptionXpath(String role) {
         return "(//div[@class='flex items-center gap-2'][normalize-space()='" + role + "'])[1]";
     }
-
     private final By closeModalButton = By.xpath("//button[contains(@class, 'absolute') and @aria-label='Close']");
     private final By backdrop = By.xpath("//div[contains(@class, 'bg-black') and contains(@class,'fixed')]");
-
     // Actions
     public void openUsersPage() {
         wait.until(ExpectedConditions.elementToBeClickable(usersMenuLink)).click();
@@ -97,7 +90,6 @@ public class UserPage {
             actions.moveToElement(auOption).click().perform();
         }
     }
-
     public void selectRoles(String roles) {
         String[] roleList = roles.split(",");
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(roleDropdown));
@@ -110,7 +102,6 @@ public class UserPage {
             actions.moveToElement(roleOption).click().perform();
         }
     }
-
 
 /*    public void selectRoles(String roles) {
         String[] roleList = roles.split(",");
@@ -126,7 +117,6 @@ public class UserPage {
     public void clickCreate() {
         wait.until(ExpectedConditions.elementToBeClickable(createButton)).click();
     }
-
     public void closeModalIfOpen() {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(closeModalButton)).click();

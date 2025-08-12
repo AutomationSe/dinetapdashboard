@@ -24,8 +24,6 @@ public class LoginPage {
     private By serverError = By.xpath("(//div[@class='group-[.toast]:text-muted-foreground'])[1]");
     private By version = By.xpath("(//p[@class='text-xs text-foreground'])[1]");
 
-
-
     public String getLoginTitle() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(loginTitle)).getText().trim();
     }
@@ -44,7 +42,6 @@ public class LoginPage {
     public String getVersion() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(version)).getText().trim();
     }
-
     public void login(String email, String password) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(emailField)).clear();
         driver.findElement(emailField).sendKeys(email);

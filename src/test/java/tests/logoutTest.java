@@ -18,7 +18,6 @@ public class logoutTest extends BaseTest {
     @BeforeClass
     public void doLoginOnce() {
         loginAs("senel@gmail.com", "Senel2314@");
-
         WebElement heading = driver.findElement(By.xpath("(//h1[normalize-space()='Restaurants'])[1]"));
         String actualText = heading.getText().trim();
         String expectedText = "Restaurants";
@@ -28,7 +27,6 @@ public class logoutTest extends BaseTest {
     @Test
     public void testLogoutFlow() {
         logoutpage logout = new logoutpage(getDriver());
-
         logout.clickProfile();
         softAssert.assertEquals(logout.getUsername(), "senel user", "Profile name mismatch in profile menu");
         softAssert.assertEquals(logout.getEmailAddress(),"seneluser@gmail.com" , "Email address mismatch in profile menu");

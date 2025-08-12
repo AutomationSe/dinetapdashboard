@@ -22,7 +22,6 @@ public class restaurantPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.actions = new Actions(driver);
     }
-
     private final By restaurantName = By.xpath("//h1[normalize-space()='Restaurants']");
     private final By Payment_Provider = By.xpath("(//label[normalize-space()='Payment Provider'])[1]");
     private final By payment_providerInput = By.xpath("//div[@aria-label='Select Payment Provider']//div[@class='flex-1 overflow-hidden']");
@@ -44,13 +43,11 @@ public class restaurantPage {
     private final By postalcodeText = By.xpath("(//label[normalize-space()='Postal Code'])[1]");
     private final By postalcodeInput = By.xpath("(//input[@id='posPostalCode'])[1]");
     private final By currencyText = By.xpath("(//label[normalize-space()='Currency'])[1]");
-//    private final By currencyInput = By.xpath("(//select[@aria-hidden='true'])[4]");
     private final By currencyInput = By.xpath("(//div[@class='flex w-full items-center justify-between'])[5]");
     private final By cusineText = By.xpath("(//label[normalize-space()='Cuisines'])[1]");
     private final By cuisinedropdown = By.xpath("(//div[@class='flex-1 overflow-hidden'])[1]");
     private final By mainCusineText = By.xpath("(//label[normalize-space()='Main Cuisine'])[1]");
     private final By mainCuisineDropdownTrigger = By.xpath("(//div[@class='flex w-full items-center justify-between'])[6]");
-//    private final By maincusineselect = By.xpath("(//select[@aria-hidden='true'])[5]");
     private final By clickNextButton = By.xpath("(//button[normalize-space()='Next'])[1]");
     private final By locationinfoText = By.xpath("(//div[@class='ml-4 text-sm font-medium text-primary'])[1]");
     private final By insertLocation = By.xpath("(//input[@placeholder='E.g: Alexandra Road, Singapore'])[1]");
@@ -103,10 +100,6 @@ public class restaurantPage {
     private final By aggrementText = By.xpath("//a[normalize-space()='Agreement']");
     private final By AgreementHeading = By.xpath("//div[@class='flex flex-col justify-en gap-2']//div//p[@id='']");
     private final By clicksubmitCreateButton = By.xpath("(//button[normalize-space()='Submit'])[1]");
-
-/*    private final By togglePOS = By.xpath("//button[contains(@data-testid,'posSwitch')]");
-    private final By toggleMobileApp = By.xpath("//button[contains(@data-testid,'dinetapApp')]");
-    private final By togglePayments = By.xpath("//button[contains(@data-testid,'payments')]");*/
 
     public String getRestaurantNameText() {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -267,23 +260,28 @@ public class restaurantPage {
                 .getText().trim();
     }
 
-    public void selectMainCuisine(String mainCuisine) {
+/*    public void selectMainCuisine(String mainCuisine) {
         WebElement trigger = wait.until(ExpectedConditions.elementToBeClickable(mainCuisineDropdownTrigger));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trigger);
-
-
         try {
             Thread.sleep(2000); // allow dropdown options to load
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
         By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + mainCuisine + "']");
-
         WebElement optionElement = wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", optionElement);
+    }*/
 
+    public void selectMainCuisine(String mainCuisine) {
+        WebElement trigger = wait.until(ExpectedConditions.elementToBeClickable(mainCuisineDropdownTrigger));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trigger);
+
+        // Wait for dropdown options to load
+        WebElement optionElement = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + mainCuisine + "']")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", optionElement);
     }
 
@@ -405,40 +403,37 @@ public class restaurantPage {
                 .getText().trim();
     }
 
-    public void selectSalesManager(String salesManager) {
+/*    public void selectSalesManager(String salesManager) {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(salesmanagerDropdown));
         dropdown.click();
-
-        // Wait for the option to appear
         By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + salesManager + "']");
         WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
-
-        // Scroll into view and click
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        optionElement.click();
+    }*/
+    public void selectSalesManager(String salesManager) {
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@class='flex w-full items-center justify-between'][2]")));
+        dropdown.click();
+        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + salesManager + "']")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
     }
-
-
     public String getRestaurantCategoryText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(restaurantCategoryText))
                 .getText().trim();
     }
-
     public void selectRestaurantCategory(String category) {
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(restaurantcategoryDropdown));
         dropdown.click();
-
-        // Wait for options to be visible
         By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + category + "']");
         WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
-
-        // Scroll to the option and click it
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
     }
@@ -464,13 +459,7 @@ public class restaurantPage {
                 .getText().trim();
     }
 
-    public void enterPaymentPlatformAccount(String account) {
-
-/*        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+/*    public void enterPaymentPlatformAccount(String account) {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
         WebElement dropdown = shortWait.until(ExpectedConditions.elementToBeClickable(paymentplatformAccountInput));
         dropdown.click();
@@ -478,34 +467,38 @@ public class restaurantPage {
         WebElement optionElement = shortWait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
+    }*/
 
-/*        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(paymentplatformAccountInput));
+    public void enterPaymentPlatformAccount(String account) {
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(paymentplatformAccountInput));
         dropdown.click();
-        By optionsContainer = By.xpath("//div[contains(@class,'option') or @role='option']");
-        wait.until(ExpectedConditions.presenceOfElementLocated(optionsContainer));
-        By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + account + "']");
-        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + account + "']")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
-        optionElement.click();*/
+        optionElement.click();
     }
-
-
     public String getConnectAccountText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(connectAccountText))
                 .getText().trim();
     }
-
-    public void enterConnectAccount(String connectAccount) {
+/*    public void enterConnectAccount(String connectAccount) {
         try {
             Thread.sleep(6000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(connectAccountInput));
         dropdown.click();
         By optionLocator = By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + connectAccount + "']");
         WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
+        optionElement.click();
+    }*/
+    public void enterConnectAccount(String connectAccount) {
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(connectAccountInput));
+        dropdown.click();
+        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + connectAccount + "']")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
     }
@@ -599,28 +592,6 @@ public class restaurantPage {
         element.click();
     }
 
-/*    private final By togglePOS = By.xpath("//button[contains(@data-testid,'posSwitch')]");
-    public void enablePOSToggle() {
-        try {
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-            WebElement toggle = shortWait.until(ExpectedConditions.presenceOfElementLocated(togglePOS));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", toggle);
-
-            // Get toggle state
-            String state = toggle.getAttribute("aria-checked");
-            if ("false".equalsIgnoreCase(state)) {
-                shortWait.until(ExpectedConditions.elementToBeClickable(toggle)).click();
-                System.out.println("✅ POS toggle enabled.");
-            } else {
-                System.out.println("✅ POS toggle already enabled.");
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException("❌ POS toggle was not clickable or not found in time.", e);
-        }
-    }*/
-
     public void scrollToElementJS(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", element);
@@ -671,13 +642,6 @@ public class restaurantPage {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
         WebElement element = shortWait.until(ExpectedConditions.elementToBeClickable(clicksubmitCreateButton));
         element.click();
-    }
-
-
-    public void validateRestaurantPageHeaders(SoftAssert softAssert) {
-        softAssert.assertEquals(getRestaurantNameText(), "Restaurants", "❌ Header text mismatch!");
-        softAssert.assertEquals(getPaymentProviderText(), "Payment Provider", "❌ Payment Provider label mismatch");
-        softAssert.assertEquals(getStatusText(), "Status", "❌ Status label mismatch");
     }
 
 }

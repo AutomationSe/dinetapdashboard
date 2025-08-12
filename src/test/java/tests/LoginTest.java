@@ -26,25 +26,14 @@ public class LoginTest extends BaseTest {
         LoginPage loginPage = new LoginPage(getDriver());
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         SoftAssert softAssert = new SoftAssert();
-
-        // ✅ Verify login page labels using getter methods
         softAssert.assertEquals(loginPage.getLoginTitle(), "Login", "Login title mismatch");
         softAssert.assertEquals(loginPage.getEmailTitle(), "Email zero", "Email label mismatch");
         softAssert.assertEquals(loginPage.getPasswordTitle(), "Password", "Password label mismatch");
-
-
-       // ✅ Perform login
         loginPage.login("seneluser@gmail.com", "Senel2314@");
-
         softAssert.assertEquals(loginPage.getErrorKey(), "Error", "Error key label mismatch");
         softAssert.assertEquals(loginPage.getServerError(), "An error occurred. Please try to login.", "Server error message mismatch");
         softAssert.assertEquals(loginPage.getVersion(), "Version 1.0.0 ", "Version label mismatch");
         softAssert.assertAll();
-
-        // ✅ Wait for dashboard element to confirm successful login
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[normalize-space()='my new cafe']")));
-
-//        tearDownOnce();
     }
-
 }

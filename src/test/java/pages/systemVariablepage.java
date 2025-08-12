@@ -47,13 +47,11 @@ public class systemVariablepage {
     private final By inputValue = By.xpath("//label[normalize-space()='Value']/following::input[1]");
     private final By btnCreate = By.xpath("(//button[normalize-space()='Create'])[1]");
 
-    // Navigation
     public void clickSystemVariablelink() {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(systemVariablelink));
         actions.moveToElement(element).click().perform();
     }
 
-    // Dropdown Verification
     public WebElement getHeaderSystemVariables() {
         try {
             Thread.sleep(3000);
@@ -144,7 +142,6 @@ public class systemVariablepage {
             default:
                 throw new IllegalArgumentException("Invalid product type: " + type);
         }
-
         System.out.println("✅ Selected product type: " + type);
     }
 

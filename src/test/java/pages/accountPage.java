@@ -13,18 +13,15 @@ import org.testng.Assert;
 import java.time.Duration;
 
 public class accountPage {
-
     private WebDriver driver;
     private WebDriverWait wait;
     private Actions actions;
-
     // Constructor initializes WebDriverWait and Actions
     public accountPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.actions = new Actions(driver);
     }
-
     // Locators
     private final By systemAccountlinkbutton = By.xpath("//span[normalize-space()='Accounts']");
     private final By headerAccount = By.xpath("(//h1[normalize-space()='Accounts'])[1]");
@@ -34,21 +31,15 @@ public class accountPage {
     private final By getCancelButtontwo = By.xpath("(//button[normalize-space()='Yes, Cancel'])[1]");
     private final By CreateTexttwo = By.xpath("(//h1[normalize-space()='Accounts'])[1]");
     private final By legalText = By.xpath("(//div[@class='ml-4 text-sm font-medium text-primary'])[1]");
-    //accountform
     private final By accountNameText = By.xpath("(//label[normalize-space()='Name'])[1]");
     private final By accountNextInput = By.xpath("(//input[@id='name'])[1]");
-
     private final By registrationNumber = By.xpath("(//label[normalize-space()='Registration Number (UEN)'])[1]");
     private final By registrationNumberInput = By.xpath("(//input[@id='registeredNumber'])[1]");
-
     private final By GSTNumber = By.xpath("(//label[normalize-space()='GST Number'])[1]");
     private final By GSTNumberInput = By.xpath("(//input[@id='customerGSTNumber'])[1]");
-
     private final By organizationTypeText = By.xpath("(//label[normalize-space()='Organization Type'])[1]");
     private final By organizationTypeDropdown = By.xpath("(//select[@aria-hidden='true'])[2]");
-
     private final By citytext = By.xpath("(//label[normalize-space()='City'])[1]");
-
     private final By checkdefaultcity = By.xpath("(//span[@class='block truncate'][normalize-space()='Singapore'])[2]");
     private final By cityDropdown = By.xpath("(//select[@name='cityId'])[1]");
 //    private final String cityOptionXPath = "//div[contains(@class,'select-content')]//div[normalize-space()='%s']";
@@ -59,37 +50,27 @@ public class accountPage {
     private final By websiteText = By.xpath("(//label[normalize-space()='Website'])[1]");
     private final By websiteInput = By.xpath("(//input[@id='websiteUrl'])[1]");
     private final By clickNextButton = By.xpath("(//button[normalize-space()='Next'])[1]");
-
-    //Restaurant page
     private final By RestaurantText = By.xpath("(//div[@class='ml-4 text-sm font-medium text-primary'])[1]");
-
     private final By nameText = By.xpath("(//label[normalize-space()='Name'])[1]");
     private final By nameInput = By.xpath("(//input[@id='name'])[1]");
-
     private final By ShopperStatementtext = By.xpath("(//label[normalize-space()='Shopper Statement'])[1]");
     private final By ShopperStatementInput = By.xpath("(//input[@id='shopperStatement'])[1]");
     private final By CountryText = By.xpath("(//label[normalize-space()='Country'])[1]");
     private final By CitynewText = By.xpath("(//label[normalize-space()='City'])[1]");
     private final By streetText = By.xpath("(//label[normalize-space()='Street Name'])[1]");
     private final By postalcodetext = By.xpath("(//label[normalize-space()='Postal Code'])[1]");
-
     private final By Currency = By.xpath("(//label[normalize-space()='Currency'])[1]");
-
     private final By timeZonetext = By.xpath("(//label[normalize-space()='Time Zone'])[1]");
     private final By owneremailtext = By.xpath("(//label[normalize-space()='Owner Email'])[1]");
     private final By owneremailInput = By.xpath("(//input[@id='registeredEmail'])[1]");
     private final By resphonenumbertext = By.xpath("(//label[normalize-space()='Restaurant Phone Number'])[1]");
     private final By resphoneinput = By.xpath("(//input[@id='registeredMobileNo'])[1]");
-
     private final By clicksecnextbutn = By.xpath("(//button[normalize-space()='Next'])[1]");
-
     private final By pointofcontact = By.xpath("(//label[normalize-space()='Point of Contact Name'])[1]");
     private final By pointofcontactInput = By.xpath("(//input[@id='contactPersonName'])[1]");
-
     private final By pointofcontactnumber = By.xpath("(//label[normalize-space()='Point of Contact Phone Number'])[1]");
     private final By pointofcontactnumberInput = By.xpath("(//input[@id='contactPersonMobileNo'])[1]");
     private final By salesmanager = By.xpath("(//label[normalize-space()='Sales Manager'])[1]");
-
     private final By clickDropdown = By.xpath("(//div[@class='flex w-full items-center justify-between'])[2]");
 //    private final By salesmanagerdropdown = By.xpath("//select[@name='salesManagerId']");
     private final By salesManagerSelect = By.xpath("//select[@name='salesManagerId']");
@@ -104,13 +85,10 @@ public class accountPage {
     private final By creatingpaymentMethod = By.xpath("(//span[normalize-space()='Creating Payment Methods'])[1]");
     private final By creatingRestaurant = By.xpath("(//span[normalize-space()='Creating Restaurant'])[1]");
     private final By sendingownerinvite = By.xpath("(//span[normalize-space()='Sending Owner Invitation'])[1]");
-
     private final By popuptext = By.xpath("(//p[@class='text-muted-foreground text-sm font-light'])[1]");
     private final By linkexpire = By.xpath("(//p[@class='text-sm pt-2'])[1]");
-
     private final By okaybutton = By.xpath("(//button[normalize-space()='Okay'])[1]");
 
-    // Actions
     public void clickSystemAccountLink() {
         actions.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(systemAccountlinkbutton)))
                 .click().perform();
@@ -455,7 +433,6 @@ public class accountPage {
                 .getText().trim();
     }
 
-
     public void clickOkayButton() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         try {
@@ -473,6 +450,5 @@ public class accountPage {
             Assert.fail("OK button click failed.");
         }
     }
-
 
 }
