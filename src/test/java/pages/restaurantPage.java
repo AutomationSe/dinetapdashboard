@@ -2,9 +2,7 @@ package pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
@@ -100,6 +98,7 @@ public class restaurantPage {
     private final By aggrementText = By.xpath("//a[normalize-space()='Agreement']");
     private final By AgreementHeading = By.xpath("//div[@class='flex flex-col justify-en gap-2']//div//p[@id='']");
     private final By clicksubmitCreateButton = By.xpath("(//button[normalize-space()='Submit'])[1]");
+    private final By badrequestText = By.xpath("(//div[@class='group-[.toast]:text-muted-foreground'])[1]");
 
     public String getRestaurantNameText() {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -260,7 +259,7 @@ public class restaurantPage {
                 .getText().trim();
     }
 
-/*    public void selectMainCuisine(String mainCuisine) {
+    public void selectMainCuisine(String mainCuisine) {
         WebElement trigger = wait.until(ExpectedConditions.elementToBeClickable(mainCuisineDropdownTrigger));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trigger);
         try {
@@ -272,9 +271,9 @@ public class restaurantPage {
         WebElement optionElement = wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", optionElement);
-    }*/
+    }
 
-    public void selectMainCuisine(String mainCuisine) {
+/*    public void selectMainCuisine(String mainCuisine) {
         WebElement trigger = wait.until(ExpectedConditions.elementToBeClickable(mainCuisineDropdownTrigger));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trigger);
 
@@ -283,7 +282,7 @@ public class restaurantPage {
                 By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + mainCuisine + "']")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", optionElement);
-    }
+    }*/
 
     public void clickNextButton() {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
@@ -307,7 +306,7 @@ public class restaurantPage {
         }
 
         // Now wait for the suggestion dropdown to load and be clickable
-        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(8));
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement suggestion = shortWait.until(ExpectedConditions.elementToBeClickable(firstSuggestion));
 
         // Click the first suggestion
@@ -403,7 +402,7 @@ public class restaurantPage {
                 .getText().trim();
     }
 
-/*    public void selectSalesManager(String salesManager) {
+    public void selectSalesManager(String salesManager) {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -415,8 +414,9 @@ public class restaurantPage {
         WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
-    }*/
-    public void selectSalesManager(String salesManager) {
+    }
+
+/*    public void selectSalesManager(String salesManager) {
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//div[@class='flex w-full items-center justify-between'][2]")));
         dropdown.click();
@@ -424,7 +424,7 @@ public class restaurantPage {
                 By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + salesManager + "']")));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
-    }
+    }*/
     public String getRestaurantCategoryText() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(restaurantCategoryText))
                 .getText().trim();
@@ -481,9 +481,9 @@ public class restaurantPage {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(connectAccountText))
                 .getText().trim();
     }
-/*    public void enterConnectAccount(String connectAccount) {
+    public void enterConnectAccount(String connectAccount) {
         try {
-            Thread.sleep(6000);
+            Thread.sleep(8000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -493,15 +493,8 @@ public class restaurantPage {
         WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
         optionElement.click();
-    }*/
-    public void enterConnectAccount(String connectAccount) {
-        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(connectAccountInput));
-        dropdown.click();
-        WebElement optionElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[contains(@class,'option') or @role='option'][normalize-space()='" + connectAccount + "']")));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", optionElement);
-        optionElement.click();
     }
+
 
     public void clickNextButton5() {
         WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
@@ -638,10 +631,44 @@ public class restaurantPage {
                 .getText().trim();
     }
 
+/*
     public void clickSubmitCreateButton() {
-        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(4));
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement element = shortWait.until(ExpectedConditions.elementToBeClickable(clicksubmitCreateButton));
         element.click();
+    }
+*/
+
+    public void clickSubmitCreateButton() {
+        WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement element = shortWait.until(ExpectedConditions.elementToBeClickable(clicksubmitCreateButton));
+
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+
+            element.click();
+        } catch (Exception e) {
+            // Fallback to JavaScript click if Selenium click fails
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
+    }
+
+    public boolean isBadRequestPopupPresent() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(badrequestText));
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false; // popup not present
+        }
+    }
+
+    public String getBadRequestText() {
+        try {
+            return driver.findElement(badrequestText).getText().trim();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
 }
