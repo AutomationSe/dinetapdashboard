@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import jdk.jfr.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,12 +26,14 @@ public class restaurantTest extends BaseTest {
 /*    SoftAssert softAssert = new SoftAssert();*/
 
     @BeforeClass
+    @Description("Login before running tests")
     public void loginAndWait() {
         loginAs("seneluser@gmail.com", "Senel2314@");
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         page = new restaurantPage(getDriver());
     }
     @Test(priority = 1)
+    @Description("Verify Restaurant Page Header")
     public void testRestaurantPageHeader() {
         Assert.assertEquals(page.getRestaurantNameText(), "Restaurants", "❌ Header text mismatch!");
         Assert.assertEquals(page.getPaymentProviderText(), "Payment Provider", "❌ Payment Provider label mismatch");
@@ -38,6 +41,7 @@ public class restaurantTest extends BaseTest {
     }
 
     @DataProvider(name = "restaurantData")
+    @Description("Data provider reading from Excel")
     public Iterator<Object[]> getRestaurantData() {
         String filePath = System.getProperty("user.dir") + "\\src\\test\\resources\\Restaurant.xlsx";
         String sheet = "Sheet1";
@@ -46,6 +50,7 @@ public class restaurantTest extends BaseTest {
     }
 
     @Test(dataProvider = "restaurantData", priority = 3)
+    @Description("Test to create a new restaurant with data from Excel")
     public void clickNewRestaurant(Map<String, String> data) {
         SoftAssert softAssert = new SoftAssert();
         page.clickNewRestaurant();
@@ -124,7 +129,6 @@ public class restaurantTest extends BaseTest {
 //        softAssert.assertEquals(page.getAgreementHeadingText().trim(), "Make sure you are uploading a clear and readable PDF document for your restaurant (After selecting make sure to upload the pdf.)", "❌ Agreement heading text mismatch");
         page.clickSubmitCreateButton();
 //        Thread.sleep(2000);
-
 
         if (page.isBadRequestPopupPresent()) {
             System.out.println("❌ Restaurant cannot be created – Reason: " + page.getBadRequestText());
