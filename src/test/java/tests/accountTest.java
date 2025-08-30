@@ -26,10 +26,6 @@ public class accountTest extends BaseTest {
     public void loginAndWait() {
         restaurantTest restaurantTest = new restaurantTest();
         loginAs("seneluser@gmail.com", "Senel2314@");
-
-       /*  WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-       WebElement heading = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//h1[normalize-space()='Restaurants'])[1]")));
-        Assert.assertEquals(heading.getText().trim(), "Restaurants", "❌ Header text mismatch!");*/
         page = new restaurantPage(getDriver());
         validateRestaurantHeaders(softAssert);
         softAssert.assertAll();
