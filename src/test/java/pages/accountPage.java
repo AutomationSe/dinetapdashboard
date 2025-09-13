@@ -42,7 +42,6 @@ public class accountPage {
     private final By citytext = By.xpath("(//label[normalize-space()='City'])[1]");
     private final By checkdefaultcity = By.xpath("(//span[@class='block truncate'][normalize-space()='Singapore'])[2]");
     private final By cityDropdown = By.xpath("(//select[@name='cityId'])[1]");
-//    private final String cityOptionXPath = "//div[contains(@class,'select-content')]//div[normalize-space()='%s']";
     private final By streetNameText = By.xpath("(//label[normalize-space()='Street Name'])[1]");
     private final By streetNameInput = By.xpath("(//input[@id='street'])[1]");
     private final By postalCodeText = By.xpath("(//label[normalize-space()='Postal Code'])[1]");
@@ -72,7 +71,6 @@ public class accountPage {
     private final By pointofcontactnumberInput = By.xpath("(//input[@id='contactPersonMobileNo'])[1]");
     private final By salesmanager = By.xpath("(//label[normalize-space()='Sales Manager'])[1]");
     private final By clickDropdown = By.xpath("(//div[@class='flex w-full items-center justify-between'])[2]");
-//    private final By salesmanagerdropdown = By.xpath("//select[@name='salesManagerId']");
     private final By salesManagerSelect = By.xpath("//select[@name='salesManagerId']");
     private final By ClickSubmitButton = By.xpath("(//button[normalize-space()='Submit'])[1]");
     private final By settingAccount = By.xpath("(//h2[normalize-space()='Setting Up Your Account'])[1]");
@@ -88,6 +86,8 @@ public class accountPage {
     private final By popuptext = By.xpath("(//p[@class='text-muted-foreground text-sm font-light'])[1]");
     private final By linkexpire = By.xpath("(//p[@class='text-sm pt-2'])[1]");
     private final By okaybutton = By.xpath("(//button[normalize-space()='Okay'])[1]");
+    //    private final String cityOptionXPath = "//div[contains(@class,'select-content')]//div[normalize-space()='%s']";
+    //    private final By salesmanagerdropdown = By.xpath("//select[@name='salesManagerId']");
 
     public void clickSystemAccountLink() {
         actions.moveToElement(wait.until(ExpectedConditions.elementToBeClickable(systemAccountlinkbutton)))
